@@ -1,0 +1,123 @@
+:root {
+   --title-font: 'Lato', sans-serif;
+   --title-weight: 700;
+   --title-font-size: 18px;
+
+   --text-font: 'Roboto', sans-serif;
+   --text-weight: 400;
+   --text-font-size: 14px;
+
+   --line-height: 22px;
+}
+
+/* Supprime le border lors du click et du hover de Bootstrap  */
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+   outline: 0px !important;
+   -webkit-appearance: none;
+   box-shadow: none !important;
+}
+
+/* Déplacer la position de 55px */
+.z-3 {
+   top: 55px;
+}
+
+.card-title:first-child {
+   font-family: var(--title-font);
+   font-weight: var(--text-weight);
+   font-size: var(--title-font-size);
+   line-height: var(--line-height);
+}
+
+.card-title p {
+   font-family: var(--title-font);
+   font-weight: var(--title-weight);
+   font-size: var(--title-font-size);
+   line-height: var(--line-height);
+}
+
+p {
+   font-family: var(--text-font);
+   font-weight: var(--text-weight);
+   font-size: var(--text-font-size);
+}
+
+.form-floating img,
+#container-ustensile img,
+#container-ingredients img,
+#container-appareils img {
+   cursor: pointer;
+   right: 25px;
+}
+
+#container-ingredients {
+   width: auto;
+}
+
+.bg-color {
+   height: 175px;
+}
+
+.card-body {
+   background-color: #E7E7E7;
+}
+
+.card-content p {
+   width: 200px;
+   display: -webkit-box;
+   -webkit-line-clamp: 6;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+}
+
+/* Placeholders modification Bootstrap 5 */
+#input-ustensile,
+#input-appareils,
+#input-ingredients {
+   padding: 1.4rem 1rem;
+}
+
+.rotate-img {
+   top: 28px;
+}
+
+.rotate-img_event {
+   transform: rotate(180deg);
+}
+
+#result-menu-ingredients .col-4,
+#result-menu-appareils .col-4,
+#result-menu-ustensile .col-4 {
+   font-family: var(--title-font);
+   font-weight: var(--text-weight);
+   font-size: var(--title-font-size);
+   line-height: var(--line-height);
+   color: white;
+   padding: 5px 10px;
+   opacity: 1;
+}
+
+#input-ustensile::placeholder,
+#input-appareils::placeholder,
+#input-ingredients::placeholder,
+#input-ustensile,
+#input-appareils,
+#input-ingredients {
+   font-family: var(--title-font);
+   font-weight: var(--title-weight);
+   font-size: var(--title-font-size);
+   line-height: var(--line-height);
+   color: white;
+   opacity: 1;
+}
