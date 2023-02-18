@@ -8,6 +8,31 @@
    --text-font-size: 14px;
 
    --line-height: 22px;
+
+   --bg-color: #cfe2ff;
+   --white-color: #ffffff;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+   scrollbar-width: thin;
+   scrollbar-color: var(--bg-color);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+   width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+   background: var(--white-color);
+}
+
+*::-webkit-scrollbar-thumb {
+   background-color: var(--bg-color);
+   border-radius: 10px;
+   border: 3px solid var(--white-color);
 }
 
 /* Supprime le border lors du click et du hover de Bootstrap  */
@@ -69,12 +94,25 @@ p {
    height: 175px;
 }
 
+.card:hover {
+   transform: translateY(-7px);
+}
+
 .card-body {
    background-color: #E7E7E7;
+   height: 100%;
+}
+
+.card-header-content {
+   height: 40px;
+}
+
+.card-description {
+   height: 140px;
 }
 
 .card-content p {
-   width: 200px;
+   width: 205px;
    display: -webkit-box;
    -webkit-line-clamp: 6;
    -webkit-box-orient: vertical;
@@ -109,7 +147,7 @@ p {
    font-weight: var(--text-weight);
    font-size: var(--title-font-size);
    line-height: var(--line-height);
-   color: white;
+   color: var(--white-color);
    padding: 7px 10px;
    opacity: 1;
 }
@@ -137,6 +175,6 @@ p {
    font-weight: var(--title-weight);
    font-size: var(--title-font-size);
    line-height: var(--line-height);
-   color: white;
+   color: var(--white-color);
    opacity: 1;
 }
