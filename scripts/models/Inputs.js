@@ -24,22 +24,4 @@ class Display {
       this.input.placeholder = this.placeholder;
    }
 }
-
-const displayTypes = [
-   { containerId: 'container-ingredients', inputId: 'input-ingredients', resultId: 'result-menu-ingredients', arrowId: '#container-ingredients img', placeholderText: 'Ingrédients' },
-   { containerId: 'container-appareils', inputId: 'input-appareils', resultId: 'result-menu-appareils', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
-   { containerId: 'container-ustensile', inputId: 'input-ustensile', resultId: 'result-menu-ustensile', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
-];
-
-displayTypes.forEach(displayType => {
-   let POO = new Display(
-      displayType.containerId,
-      displayType.inputId,
-      displayType.resultId,
-      displayType.arrowId,
-      displayType.placeholderText);
-
-   POO.container.addEventListener('click', () => {
-      POO.toggleResultMenu();
-   });
-});
+export default Display;

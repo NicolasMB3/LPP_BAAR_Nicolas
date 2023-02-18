@@ -96,6 +96,12 @@ p {
    transform: rotate(180deg);
 }
 
+#result-menu-ingredients,
+#result-menu-appareils,
+#result-menu-ustensile {
+   height: 260px;
+}
+
 #result-menu-ingredients .col-4,
 #result-menu-appareils .col-4,
 #result-menu-ustensile .col-4 {
@@ -104,8 +110,21 @@ p {
    font-size: var(--title-font-size);
    line-height: var(--line-height);
    color: white;
-   padding: 5px 10px;
+   padding: 7px 10px;
    opacity: 1;
+}
+
+#result-menu-ingredients .col-4:first-letter,
+#result-menu-appareils .col-4:first-letter,
+#result-menu-ustensile .col-4:first-letter {
+   text-transform: uppercase;
+}
+
+#result-menu-ingredients .col-4:hover,
+#result-menu-appareils .col-4:hover,
+#result-menu-ustensile .col-4:hover {
+   background-color: rgba(255, 255, 255, 0.085);
+   border-radius: 4px;
 }
 
 #input-ustensile::placeholder,
