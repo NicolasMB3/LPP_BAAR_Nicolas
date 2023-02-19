@@ -9,49 +9,64 @@ class CreateCard {
    }
 
    createCardItem() {
-      let divCol = document.createElement('div');
-      divCol.setAttribute('class', 'col-sm col-md-6 col-lg-4');
-      let divCard = document.createElement('div');
-      divCard.setAttribute('class', 'card border-0');
+      // Build Container
+      const divCol = document.createElement('div');
+      divCol.classList.add('col-sm', 'col-md-6', 'col-lg-4');
+
+      const divCard = document.createElement('div');
+      divCard.classList.add('card', 'border-0');
       divCard.style.width = '100%';
-      let divCardImgTop = document.createElement('div');
-      divCardImgTop.setAttribute('class', 'card-img-top bg-color bg-primary-subtle');
-      let divCardBody = document.createElement('div');
-      divCardBody.setAttribute('class', 'card-body rounded-bottom');
-      let dFlexJTMB = document.createElement('div');
-      dFlexJTMB.setAttribute('class', 'd-flex justify-content-between mb-3 card-header-content');
-      let h5CardTitle = document.createElement('h5');
-      h5CardTitle.setAttribute('class', 'card-title text-start');
+
+      const divCardImgTop = document.createElement('div');
+      divCardImgTop.classList.add('card-img-top', 'bg-color', 'bg-primary-subtle');
+
+      // Append elements to container
+      divCol.appendChild(divCard);
+      divCard.appendChild(divCardImgTop);
+
+      // Build card body
+      const divCardBody = document.createElement('div');
+      divCardBody.classList.add('card-body', 'rounded-bottom');
+
+      // Build title and time (minutes to cook)
+      const dFlexJTMB = document.createElement('div');
+      dFlexJTMB.classList.add('d-flex', 'justify-content-between', 'mb-3', 'card-header-content');
+
+      const h5CardTitle = document.createElement('h5');
+      h5CardTitle.classList.add('card-title', 'text-start');
       h5CardTitle.innerHTML = this.title;
-      let w50CardTitle = document.createElement('div');
-      w50CardTitle.setAttribute('class', 'w-50 card-title d-flex justify-content-end align-items-center');
-      let imgTime = document.createElement('img');
+
+      const w50CardTitle = document.createElement('div');
+      w50CardTitle.classList.add('w-50', 'card-title', 'd-flex', 'justify-content-end', 'align-items-center');
+
+      const imgTime = document.createElement('img');
       imgTime.setAttribute('src', 'img/time.svg');
       imgTime.setAttribute('alt', 'Temps de préparation');
-      let ps2 = document.createElement('p');
-      ps2.setAttribute('class', 'text-start mb-0 ps-2');
-      ps2.innerHTML = this.time + ' min';
 
-      let cardContent = document.createElement('div');
-      cardContent.setAttribute('class', 'card-content d-flex justify-content-between');
-      let dFlexFC = document.createElement('div');
-      dFlexFC.setAttribute('class', 'd-flex flex-column text-start card-description');
+      const ps2 = document.createElement('p');
+      ps2.classList.add('text-start', 'mb-0', 'ps-2');
+      ps2.innerHTML = `${this.time} min`;
+
+      // Card content
+      const cardContent = document.createElement('div');
+      cardContent.classList.add('card-content', 'd-flex', 'justify-content-between');
+
+      const dFlexFC = document.createElement('div');
+      dFlexFC.classList.add('d-flex', 'flex-column', 'text-start', 'card-description');
 
       // Get ingredients list from the recipe
       for (let i = 0; i < this.ingredient.length; i++) {
-         let pIngredient = document.createElement('p');
+         const pIngredient = document.createElement('p');
          pIngredient.classList.add('mb-0');
          pIngredient.innerHTML = `<span class="fw-bold">${this.ingredient[i]} :</span> ${this.quantity[i]} ${this.unit[i]}`;
          dFlexFC.appendChild(pIngredient);
       }
 
-      let w50 = document.createElement('p');
-      w50.setAttribute('class', 'text-start w-50');
+      const w50 = document.createElement('p');
+      w50.classList.add('text-start', 'w-50');
       w50.innerHTML = this.description;
 
-      // Appending Elements
-      divCol.appendChild(divCard);
-      divCard.appendChild(divCardImgTop);
+      // Append elements to card body
       divCard.appendChild(divCardBody);
       divCardBody.appendChild(dFlexJTMB);
       dFlexJTMB.appendChild(h5CardTitle);
@@ -61,7 +76,8 @@ class CreateCard {
       divCardBody.appendChild(cardContent);
       cardContent.appendChild(dFlexFC);
       cardContent.appendChild(w50);
+
       document.getElementById('container-card').appendChild(divCol);
    }
 }
-export default CreateCard;
+export default CreateCard; 
