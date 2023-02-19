@@ -34,7 +34,7 @@ class CreateCard {
 
       const h5CardTitle = document.createElement('h5');
       h5CardTitle.classList.add('card-title', 'text-start');
-      h5CardTitle.innerHTML = this.title;
+      h5CardTitle.textContent = this.title;
 
       const w50CardTitle = document.createElement('div');
       w50CardTitle.classList.add('w-50', 'card-title', 'd-flex', 'justify-content-end', 'align-items-center');
@@ -45,7 +45,7 @@ class CreateCard {
 
       const ps2 = document.createElement('p');
       ps2.classList.add('text-start', 'mb-0', 'ps-2');
-      ps2.innerHTML = `${this.time} min`;
+      ps2.textContent = this.time + ' min';
 
       // Card content
       const cardContent = document.createElement('div');
@@ -64,7 +64,7 @@ class CreateCard {
 
       const w50 = document.createElement('p');
       w50.classList.add('text-start', 'w-50');
-      w50.innerHTML = this.description;
+      w50.textContent = this.description;
 
       // Append elements to card body
       divCard.appendChild(divCardBody);

@@ -1,25 +1,13 @@
 import Display from './models/Inputs.js';
 import CreateCard from './models/Cards.js';
 
-const displayTypes = [
-   { containerId: 'container-ingredients', inputId: 'input-ingredients', resultId: 'result-menu-ingredients', arrowId: '#container-ingredients img', placeholderText: 'Ingrédients' },
-   { containerId: 'container-appareils', inputId: 'input-appareils', resultId: 'result-menu-appareils', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
-   { containerId: 'container-ustensile', inputId: 'input-ustensile', resultId: 'result-menu-ustensile', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
-];
+function init() {
+   Display.init();
+}
 
-// Init Class Display
-for (let i = 0; i < displayTypes.length; i++) {
-   let POO = new Display(
-      displayTypes[i].containerId,
-      displayTypes[i].inputId,
-      displayTypes[i].resultId,
-      displayTypes[i].arrowId,
-      displayTypes[i].placeholderText);
-   POO.container.addEventListener('click', () => {
-      POO.toggleResultMenu();
-   });
-};
+init();
 
+// Rework the code below to use the Display class
 // Display ingredients list in the result menu
 let ingredients = [],
    appliances = [],
@@ -39,7 +27,7 @@ function boucleArray(elements) {
             unit.push(recipes[i].ingredients[j].unit || '');
          }
          // create card item for each recipe
-         let card = new CreateCard(recipes[i].name, recipes[i].time, recipes[i].description, ingredients, quantity, unit);
+         let card = new CreateCard(recipes[i].name, recipes[i].time || '< 1', recipes[i].description, ingredients, quantity, unit);
          card.createCardItem();
 
          for (let j = 0; j < recipes[i].ingredients.length; j++) {
