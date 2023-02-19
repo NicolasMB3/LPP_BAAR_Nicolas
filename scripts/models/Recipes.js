@@ -47,7 +47,7 @@ class RecipeList {
    displayList(elements, name) {
       this.removeDuplicate(elements).forEach(element => {
          let div = document.createElement('div');
-         div.classList.add('col-4');
+         div.classList.add('col-sm-6', 'col-md-4');
          div.innerHTML = element;
          document.querySelector(`#result-menu-${name} .row`).appendChild(div);
       });

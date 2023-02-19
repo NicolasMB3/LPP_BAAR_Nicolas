@@ -140,9 +140,9 @@ p {
    height: 260px;
 }
 
-#result-menu-ingredients .col-4,
-#result-menu-appareils .col-4,
-#result-menu-ustensile .col-4 {
+#result-menu-ingredients .col-md-4,
+#result-menu-appareils .col-md-4,
+#result-menu-ustensile .col-md-4 {
    font-family: var(--title-font);
    font-weight: var(--text-weight);
    font-size: var(--title-font-size);
@@ -152,15 +152,16 @@ p {
    opacity: 1;
 }
 
-#result-menu-ingredients .col-4:first-letter,
-#result-menu-appareils .col-4:first-letter,
-#result-menu-ustensile .col-4:first-letter {
+#result-menu-ingredients .col-md-4:first-letter,
+#result-menu-appareils .col-md-4:first-letter,
+#result-menu-ustensile .col-md-4:first-letter {
    text-transform: uppercase;
 }
 
-#result-menu-ingredients .col-4:hover,
-#result-menu-appareils .col-4:hover,
-#result-menu-ustensile .col-4:hover {
+#result-menu-ingredients .col-md-4:hover,
+#result-menu-appareils .col-md-4:hover,
+#result-menu-ustensile .col-md-4:hover {
+   cursor: pointer;
    background-color: rgba(255, 255, 255, 0.085);
    border-radius: 4px;
 }
@@ -179,6 +180,7 @@ p {
    opacity: 1;
 }
 
+/* Navbar to get Github link and comparaison page */
 #navigator {
    width: auto;
    background-color: #6096B4;
@@ -211,6 +213,7 @@ p {
 }
 
 .active {
+   background-color: #93BFCF;
    display: flex;
    justify-content: center;
    width: 200px !important;

@@ -59,7 +59,13 @@ class CreateCard {
       for (let i = 0; i < this.ingredient.length; i++) {
          const pIngredient = document.createElement('p');
          pIngredient.classList.add('mb-0');
-         pIngredient.innerHTML = `<span class="fw-bold">${this.ingredient[i]} :</span> ${this.quantity[i]} ${this.unit[i]}`;
+         const span = document.createElement('span');
+         span.className = 'fw-bold';
+         span.innerHTML = `${this.ingredient[i]} :`;
+         pIngredient.appendChild(span);
+
+         const textNode = document.createTextNode(` ${this.quantity[i]} ${this.unit[i]}`);
+         pIngredient.appendChild(textNode);
          dFlexFC.appendChild(pIngredient);
       }
 
