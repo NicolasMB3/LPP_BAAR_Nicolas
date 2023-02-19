@@ -1,9 +1,11 @@
 import Display from './models/Inputs.js';
-import CreateCard from './models/Cards.js';
+import RecipeList from './models/Recipes.js';
 
 function init() {
+   // Input Display
    Display.init();
-   CreateCard.init();
+   // Get and display recipes/ingredients/appliances/utensils in list and cards
+   new RecipeList(recipes).displayAllLists();
 }
 
 init();
