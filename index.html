@@ -25,6 +25,9 @@
          <label for="floatingInput text-muted">Rechercher une recette</label>
          <img src="img/search.svg" class="position-absolute top-50 translate-middle-y" alt="Icône de recherche">
       </div>
+      <div class="d-flex flex-wrap container-badge">
+         <!-- Badges -->
+      </div>
       <div class="row d-flex text-center">
          <!-- Ingrédients -->
          <div class="col-md-3 mb-md-3 mb-sm-0">
@@ -51,7 +54,7 @@
                   <img src="img/arrow-down.svg" class="position-absolute rotate-img" alt="Afficher la liste">
                </div>
                <div class="overflow-auto z-3 bg-success w-100 p-3 text-start position-absolute d-none rounded-bottom"
-                  id="result-menu-appareils">
+                  id="result-menu-appliances">
                   <div class="row">
 
                   </div>
@@ -68,15 +71,18 @@
                   <img src="img/arrow-down.svg" class="position-absolute rotate-img" alt="Afficher la liste">
                </div>
                <div class="overflow-auto z-3 bg-danger w-100 p-3 text-start position-absolute d-none rounded-bottom"
-                  id="result-menu-ustensile">
+                  id="result-menu-ustensils">
                   <div class="row">
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <div class="text-center d-flex justify-content-center">
+      <div class="text-center d-flex justify-content-center mt-3">
          <div class="row g-4" id="container-card">
+            <div id="no-results" class="mt-5 text-center d-none">
+               Aucun résultat disponible
+            </div>
             <!-- Card -->
          </div>
       </div>

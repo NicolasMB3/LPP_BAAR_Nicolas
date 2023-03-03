@@ -64,11 +64,12 @@ label:focus,
    line-height: var(--line-height);
 }
 
-.card-title p {
-   font-family: var(--title-font);
-   font-weight: var(--title-weight);
-   font-size: var(--title-font-size);
-   line-height: var(--line-height);
+.card-title p,
+button {
+   font-family: var(--title-font) !important;
+   font-weight: var(--title-weight) !important;
+   font-size: var(--title-font-size) !important;
+   line-height: var(--line-height) !important;
 }
 
 p {
@@ -135,14 +136,14 @@ p {
 }
 
 #result-menu-ingredients,
-#result-menu-appareils,
-#result-menu-ustensile {
+#result-menu-appliances,
+#result-menu-ustensils {
    height: 260px;
 }
 
 #result-menu-ingredients .col-md-4,
-#result-menu-appareils .col-md-4,
-#result-menu-ustensile .col-md-4 {
+#result-menu-appliances .col-md-4,
+#result-menu-ustensils .col-md-4 {
    font-family: var(--title-font);
    font-weight: var(--text-weight);
    font-size: var(--title-font-size);
@@ -153,14 +154,14 @@ p {
 }
 
 #result-menu-ingredients .col-md-4:first-letter,
-#result-menu-appareils .col-md-4:first-letter,
-#result-menu-ustensile .col-md-4:first-letter {
+#result-menu-appliances .col-md-4:first-letter,
+#result-menu-ustensils .col-md-4:first-letter {
    text-transform: uppercase;
 }
 
 #result-menu-ingredients .col-md-4:hover,
-#result-menu-appareils .col-md-4:hover,
-#result-menu-ustensile .col-md-4:hover {
+#result-menu-appliances .col-md-4:hover,
+#result-menu-ustensils .col-md-4:hover {
    cursor: pointer;
    background-color: rgba(255, 255, 255, 0.085);
    border-radius: 4px;

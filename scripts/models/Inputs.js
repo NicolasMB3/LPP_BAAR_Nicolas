@@ -2,8 +2,8 @@ class Display {
    static init() {
       const displayTypes = [
          { containerId: 'container-ingredients', inputId: 'input-ingredients', resultId: 'result-menu-ingredients', arrowId: '#container-ingredients img', placeholderText: 'Ingrédients' },
-         { containerId: 'container-appareils', inputId: 'input-appareils', resultId: 'result-menu-appareils', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
-         { containerId: 'container-ustensile', inputId: 'input-ustensile', resultId: 'result-menu-ustensile', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
+         { containerId: 'container-appareils', inputId: 'input-appareils', resultId: 'result-menu-appliances', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
+         { containerId: 'container-ustensile', inputId: 'input-ustensile', resultId: 'result-menu-ustensils', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
       ];
 
       // Init Class Display
@@ -20,7 +20,7 @@ class Display {
       };
    }
 
-   constructor(container, input, result, arrow, placeholder) {
+   constructor(container, input, result, arrow, placeholder, id) {
       this.container = document.getElementById(container);
       this.container_gp = this.container.parentElement.parentElement;
       this.input = document.getElementById(input);
@@ -30,6 +30,8 @@ class Display {
       // placeholder
       this.placeholder = placeholder;
       this.placeholder_search = "Rechercher un " + placeholder;
+
+      this.inputSearch = document.getElementById(id);
    }
 
    toggleResultMenu() {
@@ -46,4 +48,3 @@ class Display {
    }
 }
 export default Display;
-

@@ -12,7 +12,7 @@ class CreateCard {
    createCardItem() {
       // Build Container
       const divCol = document.createElement('div');
-      divCol.classList.add('col-sm', 'col-md-6', 'col-lg-4');
+      divCol.classList.add('col-sm', 'col-md-6', 'col-lg-4', 'card-contenu');
 
       const divCard = document.createElement('div');
       divCard.classList.add('card', 'border-0');

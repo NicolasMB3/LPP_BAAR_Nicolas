@@ -5,7 +5,9 @@ function init() {
    // Input Display
    Display.init();
    // Get and display recipes/ingredients/appliances/utensils in list and cards
-   new RecipeList(recipes).displayAllLists();
+   const recipe = new RecipeList(recipes);
+   recipe.displayAllLists();
+   recipe.searchRecipe();
 }
 
 init();
