@@ -172,7 +172,7 @@ class RecipeList {
             default:
                badge.classList.add('btn-primary');
          }
-         badge.innerHTML = `${element} <span class="ms-2 d-flex align-items-center"><img src="img/cross-badge.svg" alt="Fermer le badge"></span>`;
+         badge.innerHTML = `${element.charAt(0).toUpperCase() + element.slice(1)} <span class="ms-2 d-flex align-items-center"><img src="img/cross-badge.svg" alt="Fermer le badge"></span>`;
          badgeContainer.appendChild(badge);
          let closeBtn = badge.querySelector('img');
          closeBtn.addEventListener('click', () => {
