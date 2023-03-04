@@ -1,4 +1,5 @@
 import CreateCard from './Cards.js';
+import Display from './Inputs.js';
 
 class RecipeList {
    constructor(recipes) {
@@ -82,87 +83,200 @@ class RecipeList {
          let searchResults = this.recipes.filter(recipe => {
             return recipe.name.toLowerCase().includes(searchValue) ||
                recipe.description.toLowerCase().includes(searchValue) ||
+               recipe.appliance.toLowerCase().includes(searchValue) ||
                recipe.ingredients.some(ingredient => {
                   return ingredient.ingredient.toLowerCase().includes(searchValue);
                }) ||
-               recipe.appliance.toLowerCase().includes(searchValue) ||
                recipe.ustensils.some(ustensil => {
                   return ustensil.toLowerCase().includes(searchValue);
                });
          });
+
+         // get all selected badges
+         let selectedBadges = document.querySelectorAll('.container-badge button');
+
+         // filter recipes based on searchValue and selected badges
+         let filteredRecipes = searchResults.filter(recipe => {
+            let matchesSearchValue = true;
+            let matchesSelectedBadges = true;
+
+            if (searchValue) {
+               matchesSearchValue = recipe.name.toLowerCase().includes(searchValue) ||
+                  recipe.description.toLowerCase().includes(searchValue) ||
+                  recipe.appliance.toLowerCase().includes(searchValue) ||
+                  recipe.ingredients.some(ingredient => {
+                     return ingredient.ingredient.toLowerCase().includes(searchValue);
+                  }) ||
+                  recipe.ustensils.some(ustensil => {
+                     return ustensil.toLowerCase().includes(searchValue);
+                  });
+            }
+
+            if (selectedBadges.length > 0) {
+               let selectedIngredients = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-primary')).map(badge => badge.textContent.trim().toLowerCase());
+               let selectedAppliances = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-success')).map(badge => badge.textContent.trim().toLowerCase());
+               let selectedUstensils = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-danger')).map(badge => badge.textContent.trim().toLowerCase());
+
+               if (selectedIngredients.length > 0) {
+                  matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.includes(ingredient.ingredient.toLowerCase()));
+               }
+               if (selectedAppliances.length > 0) {
+                  matchesSelectedBadges = recipe.appliance.toLowerCase() === selectedAppliances[0];
+               }
+               if (selectedUstensils.length > 0) {
+                  matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
+               }
+            }
+
+            return matchesSearchValue && matchesSelectedBadges;
+         });
+
+         // hide/show recipe cards based on filtered recipes
          let recipeCards = document.querySelectorAll('.card-contenu');
          recipeCards.forEach(card => {
-            let cardTitle = card.querySelector('.card-title');
-            if (!searchResults.some(recipe => cardTitle.textContent.toLowerCase() === recipe.name.toLowerCase())) {
-               card.style.display = 'none';
-            } else {
-               card.style.display = 'block';
+            let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === card.querySelector('.card-title').textContent.toLowerCase());
+            if (!recipe) {
+               return;
             }
+            let hideCard = !filteredRecipes.includes(recipe);
+            card.style.display = hideCard ? 'none' : 'block';
          });
       });
    }
 
    createBadge(element, type) {
       let badgeContainer = document.querySelector('.container-badge');
-      let badge = document.createElement('button');
-      badge.classList.add('btn', 'mt-2', 'me-2', 'p-2', 'd-flex', 'align-items-center', 'align-middle');
-      switch (type) {
-         case 'appareils':
-            badge.classList.add('btn-success');
-            break;
-         case 'appliances':
-            badge.classList.add('btn-success');
-            break;
-         case 'ustensils':
-            badge.classList.add('btn-danger');
-            break;
-         default:
-            badge.classList.add('btn-primary');
+      let badgeExists = Array.from(badgeContainer.children).some(badge => {
+         return badge.textContent.trim().toLowerCase() === element.toLowerCase() && badge.classList.contains(`btn-${type}`);
+      });
+      if (!badgeExists) {
+         let badge = document.createElement('button');
+         badge.classList.add('btn', 'mt-2', 'me-2', 'p-2', 'd-flex', 'align-items-center', 'align-middle');
+         switch (type) {
+            case 'appareils':
+               badge.classList.add('btn-success');
+               break;
+            case 'appliances':
+               badge.classList.add('btn-success');
+               break;
+            case 'ustensils':
+               badge.classList.add('btn-danger');
+               break;
+            default:
+               badge.classList.add('btn-primary');
+         }
+         badge.innerHTML = `${element} <span class="ms-2 d-flex align-items-center"><img src="/img/cross-badge.svg" alt="Fermer le badge"></span>`;
+         badgeContainer.appendChild(badge);
+         let closeBtn = badge.querySelector('img');
+         closeBtn.addEventListener('click', () => {
+            badge.remove();
+            let index = this.selectedElements[type].indexOf(element.toLowerCase());
+            if (index !== -1) {
+               this.selectedElements[type].splice(index, 1);
+               this.filterRecipes();
+            }
+         });
+
+         // add event listener to filter recipes on badge click
+         badge.addEventListener('click', () => {
+            // update selected elements with all currently selected badges of the same type
+            let selectedBadges = document.querySelectorAll(`.container-badge .btn-${type}`);
+            this.selectedElements[type] = Array.from(selectedBadges).map(badge => badge.textContent.trim().toLowerCase());
+            // filter recipes
+            this.filterRecipes();
+         });
+
+         // add class to badge to identify its type
+         badge.classList.add(`btn-${type}`);
+
+         // update the list of ingredients, appliances, or utensils to include the new badge element
+         switch (type) {
+            case 'ingredients':
+               this.selectedElements.ingredients.push(element.toLowerCase());
+               break;
+            case 'appliances':
+               this.selectedElements.appliances = [element.toLowerCase()];
+               break;
+            case 'ustensils':
+               this.selectedElements.ustensils.push(element.toLowerCase());
+               break;
+         }
+
+         // filter the recipes based on the new selection
+         this.filterRecipes();
       }
-      badge.innerHTML = `${element} <span class="ms-2 d-flex align-items-center"><img src="/img/cross-badge.svg" alt="Fermer le badge"></span>`;
-      badgeContainer.appendChild(badge);
-      let closeBtn = badge.querySelector('img');
-      closeBtn.addEventListener('click', () => {
-         badge.remove();
-         this.selectedElements[type] = [];
-         this.filterRecipes();
-      });
-
-      // add event listener to filter recipes on badge click
-      badge.addEventListener('click', () => {
-         // update selected elements with all currently selected badges of the same type
-         let selectedBadges = document.querySelectorAll(`.container-badge .btn-${type}`);
-         this.selectedElements[type] = Array.from(selectedBadges).map(badge => badge.textContent.trim().toLowerCase());
-         // filter recipes
-         this.filterRecipes();
-      });
-
-      // add class to badge to identify its type
-      badge.classList.add(`btn-${type}`);
-
-      this.selectedElements[type].push(element.toLowerCase());
-      this.filterRecipes();
    }
 
    filterRecipes() {
       let recipeCards = document.querySelectorAll('.card-contenu');
+      let selectedIngredients = this.selectedElements.ingredients;
+      let selectedAppliances = this.selectedElements.appliances;
+      let selectedUstensils = this.selectedElements.ustensils;
+      let searchValue = document.querySelector('#floatingInput').value.toLowerCase();
+
+      let filteredIngredients = [];
+      let filteredAppliances = [];
+      let filteredUstensils = [];
+
       recipeCards.forEach(card => {
          let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === card.querySelector('.card-title').textContent.toLowerCase());
          if (!recipe) {
             return;
          }
          let hideCard = false;
-         if (this.selectedElements.ingredients.length > 0) {
-            hideCard = !recipe.ingredients.some(ingredient => this.selectedElements.ingredients.includes(ingredient.ingredient.toLowerCase()));
+         if (selectedIngredients.length > 0) {
+            // check if all selected ingredient badges are present in the recipe
+            hideCard = !selectedIngredients.every(selectedIngredient => {
+               return recipe.ingredients.some(ingredient => {
+                  return ingredient.ingredient.toLowerCase() === selectedIngredient;
+               });
+            });
          }
-         if (this.selectedElements.appliances.length > 0 && !hideCard) {
-            hideCard = recipe.appliance.toLowerCase() !== this.selectedElements.appliances[0];
+         if (selectedAppliances.length > 0 && !hideCard) {
+            hideCard = recipe.appliance.toLowerCase() !== selectedAppliances[0];
          }
-         if (this.selectedElements.ustensils.length > 0 && !hideCard) {
-            hideCard = !recipe.ustensils.some(ustensil => this.selectedElements.ustensils.includes(ustensil.toLowerCase()));
+         if (selectedUstensils.length > 0 && !hideCard) {
+            hideCard = !recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
+         }
+         if (searchValue && !hideCard) {
+            hideCard = !(
+               recipe.name.toLowerCase().includes(searchValue) ||
+               recipe.description.toLowerCase().includes(searchValue) ||
+               recipe.appliance.toLowerCase().includes(searchValue) ||
+               recipe.ingredients.some(ingredient => {
+                  return ingredient.ingredient.toLowerCase().includes(searchValue);
+               }) ||
+               recipe.ustensils.some(ustensil => {
+                  return ustensil.toLowerCase().includes(searchValue);
+               })
+            );
+         }
+
+         if (!hideCard) {
+            recipe.ingredients.forEach(ingredient => {
+               let ingredientName = ingredient.ingredient.toLowerCase();
+               if (!filteredIngredients.includes(ingredientName)) {
+                  filteredIngredients.push(ingredientName);
+               }
+            });
+            if (selectedAppliances.length === 0 || recipe.appliance.toLowerCase() === selectedAppliances[0]) {
+               filteredAppliances.push(recipe.appliance.toLowerCase());
+            }
+            recipe.ustensils.forEach(ustensil => {
+               let ustensilName = ustensil.toLowerCase();
+               filteredUstensils.push(ustensilName);
+            });
          }
          card.style.display = hideCard ? 'none' : 'block';
       });
+
+      filteredIngredients = this.removeDuplicate(filteredIngredients);
+      filteredAppliances = this.removeDuplicate(filteredAppliances);
+      filteredUstensils = this.removeDuplicate(filteredUstensils);
+
+      this.displayList(filteredIngredients, 'ingredients');
+      this.displayList(filteredAppliances, 'appliances');
+      this.displayList(filteredUstensils, 'ustensils');
    }
 
    searchIngredients() {
