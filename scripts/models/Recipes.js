@@ -172,7 +172,7 @@ class RecipeList {
             default:
                badge.classList.add('btn-primary');
          }
-         badge.innerHTML = `${element} <span class="ms-2 d-flex align-items-center"><img src="/img/cross-badge.svg" alt="Fermer le badge"></span>`;
+         badge.innerHTML = `${element} <span class="ms-2 d-flex align-items-center"><img src="img/cross-badge.svg" alt="Fermer le badge"></span>`;
          badgeContainer.appendChild(badge);
          let closeBtn = badge.querySelector('img');
          closeBtn.addEventListener('click', () => {
@@ -366,6 +366,9 @@ class RecipeList {
          document.getElementById('no-results').classList.remove('d-none');
       } else {
          document.getElementById('no-results').classList.add('d-none');
+         document.getElementById('input-ustensile').setAttribute('disabled', '')
+         document.getElementById('input-appareils').setAttribute('disabled', '')
+         document.getElementById('input-ingredients').setAttribute('disabled', '')
       }
    }
 }
