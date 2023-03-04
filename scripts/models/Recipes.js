@@ -364,11 +364,14 @@ class RecipeList {
 
       if (numHiddenCards === recipeCards.length) {
          document.getElementById('no-results').classList.remove('d-none');
-      } else {
-         document.getElementById('no-results').classList.add('d-none');
          document.getElementById('input-ustensile').setAttribute('disabled', '')
          document.getElementById('input-appareils').setAttribute('disabled', '')
          document.getElementById('input-ingredients').setAttribute('disabled', '')
+      } else {
+         document.getElementById('no-results').classList.add('d-none');
+         document.getElementById('input-ustensile').disabled = false;
+         document.getElementById('input-appareils').disabled = false;
+         document.getElementById('input-ingredients').disabled = false;
       }
    }
 }
