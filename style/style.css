@@ -121,8 +121,8 @@ p {
 }
 
 /* Placeholders modification Bootstrap 5 */
-#input-ustensile,
-#input-appareils,
+#input-ustensils,
+#input-appliances,
 #input-ingredients {
    padding: 1.4rem 1rem;
 }
@@ -167,11 +167,11 @@ p {
    border-radius: 4px;
 }
 
-#input-ustensile::placeholder,
-#input-appareils::placeholder,
+#input-ustensils::placeholder,
+#input-appliances::placeholder,
 #input-ingredients::placeholder,
-#input-ustensile,
-#input-appareils,
+#input-ustensils,
+#input-appliances,
 #input-ingredients {
    font-family: var(--title-font);
    font-weight: var(--title-weight);

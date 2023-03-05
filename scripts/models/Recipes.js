@@ -72,9 +72,9 @@ class RecipeList {
       this.displayList(this.appliances, 'appliances');
       this.displayList(this.ustensils, 'ustensils');
 
-      this.searchIngredients();
-      this.searchAppliances();
-      this.searchUstensils();
+      this.searchBadges('ingredients');
+      this.searchBadges('appliances');
+      this.searchBadges('ustensils');
    }
 
    searchRecipe() {
@@ -101,18 +101,6 @@ class RecipeList {
             let filteredRecipes = searchResults.filter(recipe => {
                let matchesSearchValue = true;
                let matchesSelectedBadges = true;
-
-               if (searchValue) {
-                  matchesSearchValue = recipe.name.toLowerCase().includes(searchValue) ||
-                     recipe.description.toLowerCase().includes(searchValue) ||
-                     recipe.appliance.toLowerCase().includes(searchValue) ||
-                     recipe.ingredients.some(ingredient => {
-                        return ingredient.ingredient.toLowerCase().includes(searchValue);
-                     }) ||
-                     recipe.ustensils.some(ustensil => {
-                        return ustensil.toLowerCase().includes(searchValue);
-                     });
-               }
 
                if (selectedBadges.length > 0) {
                   let selectedIngredients = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-primary')).map(badge => badge.textContent.trim().toLowerCase());
@@ -293,30 +281,31 @@ class RecipeList {
       this.displayList(filteredUstensils, 'ustensils');
    }
 
-   searchIngredients() {
-      let searchInput = document.querySelector('#input-ingredients');
+   searchBadges(type) {
+      let searchInput = document.querySelector(`#input-${type}`);
       searchInput.addEventListener('keyup', (event) => {
          let searchValue = event.target.value.toLowerCase();
-         let elements = this.ingredients.filter(element => element.includes(searchValue));
-         this.displayList(elements, 'ingredients');
+         if (type === 'ingredients') {
+            let elements = this.ingredients.filter(element => element.includes(searchValue));
+         }
+         this.displayList(elements, type);
       });
    }
 
-   searchAppliances() {
-      let searchInput = document.querySelector('#input-appareils');
+   searchBadges(type) {
+      let searchInput = document.querySelector(`#input-${type}`);
       searchInput.addEventListener('keyup', (event) => {
          let searchValue = event.target.value.toLowerCase();
-         let elements = this.appliances.filter(element => element.includes(searchValue));
-         this.displayList(elements, 'appliances');
-      });
-   }
+         let elements;
+         if (type === 'ingredients') {
+            elements = this.ingredients.filter(element => element.includes(searchValue));
+         } else if (type === 'appliances') {
+            elements = this.appliances.filter(element => element.includes(searchValue));
+         } else {
+            elements = this.ustensils.filter(element => element.includes(searchValue));
+         }
 
-   searchUstensils() {
-      let searchInput = document.querySelector('#input-ustensile');
-      searchInput.addEventListener('keyup', (event) => {
-         let searchValue = event.target.value.toLowerCase();
-         let elements = this.ustensils.filter(element => element.includes(searchValue));
-         this.displayList(elements, 'ustensils');
+         this.displayList(elements, type);
       });
    }
 
