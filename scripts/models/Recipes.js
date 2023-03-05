@@ -77,27 +77,27 @@ class RecipeList {
       this.searchBadges('ustensils');
    }
 
-   // Native Array method
+   // Object Array methods
    searchRecipe() {
       let searchInput = document.querySelector('#floatingInput');
       searchInput.addEventListener('keyup', (event) => {
          const startTimer = performance.now();
          if (event.target.value.length >= 3 || event.target.value.length === 0) {
             let searchValue = event.target.value.toLowerCase();
-            let searchResults = this.recipes.filter(recipe => {
-               return recipe.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
-                  recipe.description.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
-                  recipe.appliance.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
-                  recipe.ingredients.some(ingredient => {
-                     return ingredient.ingredient.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-                  }) ||
-                  recipe.ustensils.some(ustensil => {
-                     return ustensil.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-                  });
-            });
+            let searchResults = this.recipes.filter(recipe =>
+               recipe.name.toLowerCase().includes(searchValue) ||
+               recipe.description.toLowerCase().includes(searchValue) ||
+               recipe.appliance.toLowerCase().includes(searchValue) ||
+               recipe.ingredients.some(ingredient =>
+                  ingredient.ingredient.toLowerCase().includes(searchValue)
+               ) ||
+               recipe.ustensils.some(ustensil =>
+                  ustensil.toLowerCase().includes(searchValue)
+               )
+            );
 
             // get all selected badges
-            let selectedBadges = document.querySelectorAll('.container-badge button');
+            let selectedBadges = Array.from(document.querySelectorAll('.container-badge button'));
 
             // filter recipes based on searchValue and selected badges
             let filteredRecipes = searchResults.filter(recipe => {
@@ -105,47 +105,42 @@ class RecipeList {
                let matchesSelectedBadges = true;
 
                if (selectedBadges.length > 0) {
-                  let selectedIngredients = [];
-                  let selectedAppliances = [];
-                  let selectedUstensils = [];
-
-                  for (const badge of Array.from(selectedBadges)) {
-                     const badgeText = badge.textContent.trim().toLowerCase();
-
-                     if (badge.classList.contains('btn-primary')) {
-                        selectedIngredients.push(badgeText);
-                     } else if (badge.classList.contains('btn-success')) {
-                        selectedAppliances.push(badgeText);
-                     } else if (badge.classList.contains('btn-danger')) {
-                        selectedUstensils.push(badgeText);
-                     }
-                  }
+                  let selectedIngredients = selectedBadges.filter(badge => badge.classList.contains('btn-primary'))
+                     .map(badge => badge.textContent.trim().toLowerCase());
+                  let selectedAppliances = selectedBadges.filter(badge => badge.classList.contains('btn-success'))
+                     .map(badge => badge.textContent.trim().toLowerCase());
+                  let selectedUstensils = selectedBadges.filter(badge => badge.classList.contains('btn-danger'))
+                     .map(badge => badge.textContent.trim().toLowerCase());
 
                   if (selectedIngredients.length > 0) {
-                     matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.indexOf(ingredient.ingredient.toLowerCase()) !== -1);
+                     matchesSelectedBadges = recipe.ingredients.some(ingredient =>
+                        selectedIngredients.includes(ingredient.ingredient.toLowerCase())
+                     );
                   }
                   if (selectedAppliances.length > 0) {
-                     matchesSelectedBadges = recipe.appliance.toLowerCase().indexOf(selectedAppliances[0]) !== -1;
+                     matchesSelectedBadges = recipe.appliance.toLowerCase().includes(selectedAppliances[0]);
                   }
                   if (selectedUstensils.length > 0) {
-                     matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.indexOf(ustensil.toLowerCase()) !== -1);
+                     matchesSelectedBadges = recipe.ustensils.some(ustensil =>
+                        selectedUstensils.includes(ustensil.toLowerCase())
+                     );
                   }
                }
 
                return matchesSearchValue && matchesSelectedBadges;
             });
 
-            let recipeCards = document.querySelectorAll('.card-contenu');
-            let displayedRecipes = Array.from(recipeCards).filter(card => card.style.display !== 'none');
-            for (let i = 0; i < displayedRecipes.length; i++) {
-               let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
+            let recipeCards = Array.from(document.querySelectorAll('.card-contenu'));
+            let displayedRecipes = recipeCards.filter(card => card.style.display !== 'none');
+            displayedRecipes.forEach(card => {
+               let cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
                let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
                if (!recipe) {
-                  continue;
+                  return;
                }
                let hideCard = !filteredRecipes.includes(recipe);
-               displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
-            }
+               card.style.display = hideCard ? 'none' : 'block';
+            });
 
             this.filterRecipes();
             this.updateLists();
