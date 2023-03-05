@@ -77,20 +77,22 @@ class RecipeList {
       this.searchBadges('ustensils');
    }
 
+   Native Array method
    searchRecipe() {
       let searchInput = document.querySelector('#floatingInput');
       searchInput.addEventListener('keyup', (event) => {
+         const startTimer = performance.now();
          if (event.target.value.length >= 3 || event.target.value.length === 0) {
             let searchValue = event.target.value.toLowerCase();
             let searchResults = this.recipes.filter(recipe => {
-               return recipe.name.toLowerCase().includes(searchValue) ||
-                  recipe.description.toLowerCase().includes(searchValue) ||
-                  recipe.appliance.toLowerCase().includes(searchValue) ||
+               return recipe.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
+                  recipe.description.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
+                  recipe.appliance.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
                   recipe.ingredients.some(ingredient => {
-                     return ingredient.ingredient.toLowerCase().includes(searchValue);
+                     return ingredient.ingredient.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
                   }) ||
                   recipe.ustensils.some(ustensil => {
-                     return ustensil.toLowerCase().includes(searchValue);
+                     return ustensil.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
                   });
             });
 
@@ -108,13 +110,13 @@ class RecipeList {
                   let selectedUstensils = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-danger')).map(badge => badge.textContent.trim().toLowerCase());
 
                   if (selectedIngredients.length > 0) {
-                     matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.includes(ingredient.ingredient.toLowerCase()));
+                     matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.indexOf(ingredient.ingredient.toLowerCase()) !== -1);
                   }
                   if (selectedAppliances.length > 0) {
-                     matchesSelectedBadges = recipe.appliance.toLowerCase() === selectedAppliances[0];
+                     matchesSelectedBadges = recipe.appliance.toLowerCase().indexOf(selectedAppliances[0]) !== -1;
                   }
                   if (selectedUstensils.length > 0) {
-                     matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
+                     matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.indexOf(ustensil.toLowerCase()) !== -1);
                   }
                }
 
@@ -136,6 +138,8 @@ class RecipeList {
             this.filterRecipes();
             this.updateLists();
             this.checkIfNul();
+            const endTimer = performance.now();
+            console.log(`Temps d'exécution : ${endTimer - startTimer} millisecondes`);
          }
       });
    }
