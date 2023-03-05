@@ -140,12 +140,17 @@ class RecipeList {
       });
    }
 
-   createBadge(element, type) {
+   badgeAlreadyExists(element, type) {
       let badgeContainer = document.querySelector('.container-badge');
       let badgeExists = Array.from(badgeContainer.children).some(badge => {
          return badge.textContent.trim().toLowerCase() === element.toLowerCase() && badge.classList.contains(`btn-${type}`);
       });
-      if (!badgeExists) {
+      return badgeExists;
+   }
+
+   createBadge(element, type) {
+      let badgeContainer = document.querySelector('.container-badge');
+      if (!this.badgeAlreadyExists(element, type)) {
          let badge = document.createElement('button');
          badge.classList.add('btn', 'mt-2', 'me-2', 'p-2', 'd-flex', 'align-items-center', 'align-middle');
          switch (type) {
