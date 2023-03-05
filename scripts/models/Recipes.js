@@ -77,7 +77,7 @@ class RecipeList {
       this.searchBadges('ustensils');
    }
 
-   Native Array method
+   // Native Array method
    searchRecipe() {
       let searchInput = document.querySelector('#floatingInput');
       searchInput.addEventListener('keyup', (event) => {
