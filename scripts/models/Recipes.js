@@ -84,8 +84,10 @@ class RecipeList {
          const startTimer = performance.now();
          if (event.target.value.length >= 3 || event.target.value.length === 0) {
             let searchValue = event.target.value.toLowerCase();
-            let searchResults = this.recipes.filter(recipe => {
-               return recipe.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
+            let searchResults = [];
+            for (let i = 0; i < this.recipes.length; i++) {
+               let recipe = this.recipes[i];
+               if (recipe.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
                   recipe.description.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
                   recipe.appliance.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
                   recipe.ingredients.some(ingredient => {
@@ -93,8 +95,10 @@ class RecipeList {
                   }) ||
                   recipe.ustensils.some(ustensil => {
                      return ustensil.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-                  });
-            });
+                  })) {
+                  searchResults.push(recipe);
+               }
+            }
 
             // get all selected badges
             let selectedBadges = document.querySelectorAll('.container-badge button');
