@@ -79,35 +79,11 @@ class RecipeList {
 
    searchRecipe() {
       let searchInput = document.querySelector('#floatingInput');
-      searchInput.addEventListener('keyup', () => {
-         this.filterRecipes();
-         this.updateLists();
-         this.checkIfNoNul();
-      });
       searchInput.addEventListener('keyup', (event) => {
-         let searchValue = event.target.value.toLowerCase();
-         let searchResults = this.recipes.filter(recipe => {
-            return recipe.name.toLowerCase().includes(searchValue) ||
-               recipe.description.toLowerCase().includes(searchValue) ||
-               recipe.appliance.toLowerCase().includes(searchValue) ||
-               recipe.ingredients.some(ingredient => {
-                  return ingredient.ingredient.toLowerCase().includes(searchValue);
-               }) ||
-               recipe.ustensils.some(ustensil => {
-                  return ustensil.toLowerCase().includes(searchValue);
-               });
-         });
-
-         // get all selected badges
-         let selectedBadges = document.querySelectorAll('.container-badge button');
-
-         // filter recipes based on searchValue and selected badges
-         let filteredRecipes = searchResults.filter(recipe => {
-            let matchesSearchValue = true;
-            let matchesSelectedBadges = true;
-
-            if (searchValue) {
-               matchesSearchValue = recipe.name.toLowerCase().includes(searchValue) ||
+         if (event.target.value.length >= 3 || event.target.value.length === 0) {
+            let searchValue = event.target.value.toLowerCase();
+            let searchResults = this.recipes.filter(recipe => {
+               return recipe.name.toLowerCase().includes(searchValue) ||
                   recipe.description.toLowerCase().includes(searchValue) ||
                   recipe.appliance.toLowerCase().includes(searchValue) ||
                   recipe.ingredients.some(ingredient => {
@@ -116,44 +92,64 @@ class RecipeList {
                   recipe.ustensils.some(ustensil => {
                      return ustensil.toLowerCase().includes(searchValue);
                   });
+            });
+
+            // get all selected badges
+            let selectedBadges = document.querySelectorAll('.container-badge button');
+
+            // filter recipes based on searchValue and selected badges
+            let filteredRecipes = searchResults.filter(recipe => {
+               let matchesSearchValue = true;
+               let matchesSelectedBadges = true;
+
+               if (searchValue) {
+                  matchesSearchValue = recipe.name.toLowerCase().includes(searchValue) ||
+                     recipe.description.toLowerCase().includes(searchValue) ||
+                     recipe.appliance.toLowerCase().includes(searchValue) ||
+                     recipe.ingredients.some(ingredient => {
+                        return ingredient.ingredient.toLowerCase().includes(searchValue);
+                     }) ||
+                     recipe.ustensils.some(ustensil => {
+                        return ustensil.toLowerCase().includes(searchValue);
+                     });
+               }
+
+               if (selectedBadges.length > 0) {
+                  let selectedIngredients = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-primary')).map(badge => badge.textContent.trim().toLowerCase());
+                  let selectedAppliances = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-success')).map(badge => badge.textContent.trim().toLowerCase());
+                  let selectedUstensils = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-danger')).map(badge => badge.textContent.trim().toLowerCase());
+
+                  if (selectedIngredients.length > 0) {
+                     matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.includes(ingredient.ingredient.toLowerCase()));
+                  }
+                  if (selectedAppliances.length > 0) {
+                     matchesSelectedBadges = recipe.appliance.toLowerCase() === selectedAppliances[0];
+                  }
+                  if (selectedUstensils.length > 0) {
+                     matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
+                  }
+               }
+
+               return matchesSearchValue && matchesSelectedBadges;
+            });
+
+            let recipeCards = document.querySelectorAll('.card-contenu');
+            let displayedRecipes = Array.from(recipeCards).filter(card => card.style.display !== 'none');
+            for (let i = 0; i < displayedRecipes.length; i++) {
+               let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
+               let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
+               if (!recipe) {
+                  continue;
+               }
+               let hideCard = !filteredRecipes.includes(recipe);
+               displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
             }
 
-            if (selectedBadges.length > 0) {
-               let selectedIngredients = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-primary')).map(badge => badge.textContent.trim().toLowerCase());
-               let selectedAppliances = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-success')).map(badge => badge.textContent.trim().toLowerCase());
-               let selectedUstensils = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-danger')).map(badge => badge.textContent.trim().toLowerCase());
-
-               if (selectedIngredients.length > 0) {
-                  matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.includes(ingredient.ingredient.toLowerCase()));
-               }
-               if (selectedAppliances.length > 0) {
-                  matchesSelectedBadges = recipe.appliance.toLowerCase() === selectedAppliances[0];
-               }
-               if (selectedUstensils.length > 0) {
-                  matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
-               }
-            }
-
-            return matchesSearchValue && matchesSelectedBadges;
-         });
-
-         let recipeCards = document.querySelectorAll('.card-contenu');
-         let displayedRecipes = Array.from(recipeCards).filter(card => card.style.display !== 'none');
-         for (let i = 0; i < displayedRecipes.length; i++) {
-            let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
-            let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
-            if (!recipe) {
-               continue;
-            }
-            let hideCard = !filteredRecipes.includes(recipe);
-            displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
+            this.filterRecipes();
+            this.updateLists();
+            this.checkIfNul();
          }
-
-         // Update the ingredients, appliances, and ustensils lists to only show elements that appear in the displayed recipes
-         this.updateLists();
       });
-
-      this.filterRecipes();
    }
 
    createBadge(element, type) {
@@ -367,7 +363,7 @@ class RecipeList {
       this.displayList(filteredUstensils, 'ustensils');
    }
 
-   checkIfNoNul() {
+   checkIfNul() {
       let recipeCards = document.querySelectorAll('.card-contenu');
       let numHiddenCards = 0;
 
