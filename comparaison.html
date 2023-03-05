@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Les petits plats</title>
+   <link rel="stylesheet" href="style/style.css">
+   <!-- Bootstrap -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+   <!-- Google Font : Roboto400 Lato400/700 -->
+   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:ital@0;1&display=swap"
+      rel="stylesheet">
+</head>
+
+<body>
+   <main>
+      <div class="px-4 py-5 my-3 text-center">
+         <img class="d-block mx-auto mb-4 feature-icon" src="img/timer.svg" alt="" width="72" height="57">
+         <h1 class="display-5 fw-bold" id="native"></h1>
+         <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Estimation arrondie à deux chiffres après la virgule du temps d'exécution de la
+               fonction <span class="fw-bold">"Native"</span> sur 100 itérations, le résultat présent peut varier en
+               fonction de l'environnement
+               utilisé.</p>
+         </div>
+      </div>
+      <div class="px-4 py-3 my-5 text-center">
+         <img class="d-block mx-auto mb-4" src="img/timer.svg" alt="" width="72" height="57">
+         <h1 class="display-5 fw-bold" id="object"></h1>
+         <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Estimation arrondie à deux chiffres après la virgule du temps d'exécution de la
+               fonction <span class="fw-bold">"Object"</span> sur 100 itérations, le résultat présent peut varier en
+               fonction de l'environnement
+               utilisé.</p>
+         </div>
+      </div>
+      <div id="navigator" class="position-fixed bottom-0 start-50 translate-middle d-flex justify-content-between">
+         <div class="d-flex">
+            <a href="comparaison.html" class="d-flex align-items-center" data-bs-toggle="tooltip"
+               data-bs-placement="top" data-bs-title="Comparaison performance"><img src="img/rocket.svg"
+                  alt="Image"></a>
+            <a href="index.html" class="active  d-flex" data-bs-toggle="tooltip" data-bs-placement="top"
+               data-bs-title="Accueil"><img src="img/accueil.svg" alt="Image"></a>
+            <a href="https://github.com/NicolasMB3/LPP_BAAR_Nicolas" class="d-flex" data-bs-toggle="tooltip"
+               data-bs-placement="top" data-bs-title="Page Github"><img src="img/github.svg" alt="Image"></a>
+         </div>
+      </div>
+   </main>
+   <script defer src="scripts/data/recipes.js"></script>
+   <script type='module' src="scripts/comparaison.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"></script>
+   <script defer src="scripts/extra/navbar.js"></script>
+</body>
+
+</html>
