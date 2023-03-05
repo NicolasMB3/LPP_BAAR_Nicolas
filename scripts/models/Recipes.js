@@ -138,15 +138,19 @@ class RecipeList {
          });
 
          let recipeCards = document.querySelectorAll('.card-contenu');
-         for (let i = 0; i < recipeCards.length; i++) {
-            let card = recipeCards[i];
-            let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === card.querySelector('.card-title').textContent.toLowerCase());
+         let displayedRecipes = Array.from(recipeCards).filter(card => card.style.display !== 'none');
+         for (let i = 0; i < displayedRecipes.length; i++) {
+            let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
+            let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
             if (!recipe) {
                continue;
             }
             let hideCard = !filteredRecipes.includes(recipe);
-            card.style.display = hideCard ? 'none' : 'block';
+            displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
          }
+
+         // Update the ingredients, appliances, and ustensils lists to only show elements that appear in the displayed recipes
+         this.updateLists();
       });
 
       this.filterRecipes();
@@ -292,7 +296,6 @@ class RecipeList {
       this.displayList(filteredAppliances, 'appliances');
       this.displayList(filteredUstensils, 'ustensils');
    }
-
 
    searchIngredients() {
       let searchInput = document.querySelector('#input-ingredients');
