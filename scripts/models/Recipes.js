@@ -1,5 +1,4 @@
 import CreateCard from './Cards.js';
-import Display from './Inputs.js';
 
 class RecipeList {
    constructor(recipes) {
@@ -54,7 +53,9 @@ class RecipeList {
    displayList(elements, name) {
       let listContainer = document.querySelector(`#result-menu-${name} .row`);
       listContainer.innerHTML = '';
-      this.removeDuplicate(elements).forEach(element => {
+      let uniqueElements = this.removeDuplicate(elements);
+      for (let i = 0; i < uniqueElements.length; i++) {
+         let element = uniqueElements[i];
          let div = document.createElement('div');
          div.classList.add('col-sm-6', 'col-md-4');
          div.innerHTML = element;
@@ -62,7 +63,7 @@ class RecipeList {
             this.createBadge(element, name);
          });
          listContainer.appendChild(div);
-      });
+      }
    }
 
    displayAllLists() {
@@ -136,16 +137,16 @@ class RecipeList {
             return matchesSearchValue && matchesSelectedBadges;
          });
 
-         // hide/show recipe cards based on filtered recipes
          let recipeCards = document.querySelectorAll('.card-contenu');
-         recipeCards.forEach(card => {
+         for (let i = 0; i < recipeCards.length; i++) {
+            let card = recipeCards[i];
             let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === card.querySelector('.card-title').textContent.toLowerCase());
             if (!recipe) {
-               return;
+               continue;
             }
             let hideCard = !filteredRecipes.includes(recipe);
             card.style.display = hideCard ? 'none' : 'block';
-         });
+         }
       });
 
       this.filterRecipes();
@@ -225,14 +226,14 @@ class RecipeList {
       let filteredAppliances = [];
       let filteredUstensils = [];
 
-      recipeCards.forEach(card => {
+      for (let i = 0; i < recipeCards.length; i++) {
+         let card = recipeCards[i];
          let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === card.querySelector('.card-title').textContent.toLowerCase());
          if (!recipe) {
-            return;
+            continue;
          }
          let hideCard = false;
          if (selectedIngredients.length > 0) {
-            // check if all selected ingredient badges are present in the recipe
             hideCard = !selectedIngredients.every(selectedIngredient => {
                return recipe.ingredients.some(ingredient => {
                   return ingredient.ingredient.toLowerCase() === selectedIngredient;
@@ -243,7 +244,11 @@ class RecipeList {
             hideCard = recipe.appliance.toLowerCase() !== selectedAppliances[0];
          }
          if (selectedUstensils.length > 0 && !hideCard) {
-            hideCard = !recipe.ustensils.some(ustensil => selectedUstensils.includes(ustensil.toLowerCase()));
+            hideCard = !selectedUstensils.every(selectedUstensil => {
+               return recipe.ustensils.some(ustensil => {
+                  return ustensil.toLowerCase() === selectedUstensil;
+               });
+            });
          }
          if (searchValue && !hideCard) {
             hideCard = !(
@@ -260,22 +265,24 @@ class RecipeList {
          }
 
          if (!hideCard) {
-            recipe.ingredients.forEach(ingredient => {
-               let ingredientName = ingredient.ingredient.toLowerCase();
+            for (let i = 0; i < recipe.ingredients.length; i++) {
+               let ingredientName = recipe.ingredients[i].ingredient.toLowerCase();
                if (!filteredIngredients.includes(ingredientName)) {
                   filteredIngredients.push(ingredientName);
                }
-            });
+            }
             if (selectedAppliances.length === 0 || recipe.appliance.toLowerCase() === selectedAppliances[0]) {
                filteredAppliances.push(recipe.appliance.toLowerCase());
             }
-            recipe.ustensils.forEach(ustensil => {
-               let ustensilName = ustensil.toLowerCase();
-               filteredUstensils.push(ustensilName);
-            });
+            for (let i = 0; i < recipe.ustensils.length; i++) {
+               let ustensilName = recipe.ustensils[i].toLowerCase();
+               if (!filteredUstensils.includes(ustensilName)) {
+                  filteredUstensils.push(ustensilName);
+               }
+            }
          }
          card.style.display = hideCard ? 'none' : 'block';
-      });
+      }
 
       filteredIngredients = this.removeDuplicate(filteredIngredients);
       filteredAppliances = this.removeDuplicate(filteredAppliances);
@@ -285,6 +292,7 @@ class RecipeList {
       this.displayList(filteredAppliances, 'appliances');
       this.displayList(filteredUstensils, 'ustensils');
    }
+
 
    searchIngredients() {
       let searchInput = document.querySelector('#input-ingredients');
@@ -325,27 +333,31 @@ class RecipeList {
       let filteredAppliances = [];
       let filteredUstensils = [];
 
-      displayedRecipes.forEach(recipe => {
-         let recipeData = this.recipes.find(data => {
-            return data.name.toLowerCase() === recipe.querySelector('.card-title').textContent.toLowerCase();
-         });
-         recipeData.ingredients.forEach(ingredient => {
-            let ingredientName = ingredient.ingredient.toLowerCase();
-            if (!filteredIngredients.includes(ingredientName)) {
-               filteredIngredients.push(ingredientName);
+      for (let i = 0; i < displayedRecipes.length; i++) {
+         let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
+         for (let j = 0; j < this.recipes.length; j++) {
+            if (this.recipes[j].name.toLowerCase() === cardTitle) {
+               let recipeData = this.recipes[j];
+               for (let k = 0; k < recipeData.ingredients.length; k++) {
+                  let ingredientName = recipeData.ingredients[k].ingredient.toLowerCase();
+                  if (!filteredIngredients.includes(ingredientName)) {
+                     filteredIngredients.push(ingredientName);
+                  }
+               }
+               let applianceName = recipeData.appliance.toLowerCase();
+               if (!filteredAppliances.includes(applianceName)) {
+                  filteredAppliances.push(applianceName);
+               }
+               for (let l = 0; l < recipeData.ustensils.length; l++) {
+                  let ustensilName = recipeData.ustensils[l].toLowerCase();
+                  if (!filteredUstensils.includes(ustensilName)) {
+                     filteredUstensils.push(ustensilName);
+                  }
+               }
+               break;
             }
-         });
-         let applianceName = recipeData.appliance.toLowerCase();
-         if (!filteredAppliances.includes(applianceName)) {
-            filteredAppliances.push(applianceName);
          }
-         recipeData.ustensils.forEach(ustensil => {
-            let ustensilName = ustensil.toLowerCase();
-            if (!filteredUstensils.includes(ustensilName)) {
-               filteredUstensils.push(ustensilName);
-            }
-         });
-      });
+      }
 
       this.displayList(filteredIngredients, 'ingredients');
       this.displayList(filteredAppliances, 'appliances');
@@ -356,11 +368,12 @@ class RecipeList {
       let recipeCards = document.querySelectorAll('.card-contenu');
       let numHiddenCards = 0;
 
-      recipeCards.forEach(card => {
+      for (let i = 0; i < recipeCards.length; i++) {
+         let card = recipeCards[i];
          if (card.style.display === 'none') {
             numHiddenCards++;
          }
-      });
+      }
 
       if (numHiddenCards === recipeCards.length) {
          document.getElementById('no-results').classList.remove('d-none');
