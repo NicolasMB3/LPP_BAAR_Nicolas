@@ -105,9 +105,21 @@ class RecipeList {
                let matchesSelectedBadges = true;
 
                if (selectedBadges.length > 0) {
-                  let selectedIngredients = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-primary')).map(badge => badge.textContent.trim().toLowerCase());
-                  let selectedAppliances = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-success')).map(badge => badge.textContent.trim().toLowerCase());
-                  let selectedUstensils = Array.from(selectedBadges).filter(badge => badge.classList.contains('btn-danger')).map(badge => badge.textContent.trim().toLowerCase());
+                  let selectedIngredients = [];
+                  let selectedAppliances = [];
+                  let selectedUstensils = [];
+
+                  for (const badge of Array.from(selectedBadges)) {
+                     const badgeText = badge.textContent.trim().toLowerCase();
+
+                     if (badge.classList.contains('btn-primary')) {
+                        selectedIngredients.push(badgeText);
+                     } else if (badge.classList.contains('btn-success')) {
+                        selectedAppliances.push(badgeText);
+                     } else if (badge.classList.contains('btn-danger')) {
+                        selectedUstensils.push(badgeText);
+                     }
+                  }
 
                   if (selectedIngredients.length > 0) {
                      matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.indexOf(ingredient.ingredient.toLowerCase()) !== -1);
