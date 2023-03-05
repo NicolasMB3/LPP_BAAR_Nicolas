@@ -104,7 +104,9 @@ class RecipeList {
             let selectedBadges = document.querySelectorAll('.container-badge button');
 
             // filter recipes based on searchValue and selected badges
-            let filteredRecipes = searchResults.filter(recipe => {
+            let filteredRecipes = [];
+            for (let i = 0; i < searchResults.length; i++) {
+               let recipe = searchResults[i];
                let matchesSearchValue = true;
                let matchesSelectedBadges = true;
 
@@ -136,24 +138,45 @@ class RecipeList {
                   }
                }
 
-               return matchesSearchValue && matchesSelectedBadges;
-            });
+               if (matchesSearchValue && matchesSelectedBadges) {
+                  filteredRecipes.push(recipe);
+               }
+            }
 
             let recipeCards = document.querySelectorAll('.card-contenu');
-            let displayedRecipes = Array.from(recipeCards).filter(card => card.style.display !== 'none');
+            let displayedRecipes = [];
+            for (let i = 0; i < recipeCards.length; i++) {
+               let card = recipeCards[i];
+               if (card.style.display !== 'none') {
+                  displayedRecipes.push(card);
+               }
+            }
             for (let i = 0; i < displayedRecipes.length; i++) {
                let cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
-               let recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
+               let recipe = null;
+               for (let j = 0; j < this.recipes.length; j++) {
+                  if (this.recipes[j].name.toLowerCase() === cardTitle) {
+                     recipe = this.recipes[j];
+                     break;
+                  }
+               }
                if (!recipe) {
                   continue;
                }
-               let hideCard = !filteredRecipes.includes(recipe);
+               let hideCard = true;
+               for (let j = 0; j < filteredRecipes.length; j++) {
+                  if (filteredRecipes[j].id === recipe.id) {
+                     hideCard = false;
+                     break;
+                  }
+               }
                displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
             }
 
             this.filterRecipes();
             this.updateLists();
             this.checkIfNul();
+
             const endTimer = performance.now();
             console.log(`Temps d'exécution : ${endTimer - startTimer} millisecondes`);
          }
