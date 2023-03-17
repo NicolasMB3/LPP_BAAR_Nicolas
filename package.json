@@ -1,0 +1,27 @@
+{
+  "name": "lpp_baar_nicolas",
+  "version": "1.0.0",
+  "description": "[![Contributors][contributors-shield]][contributors-url]\r [![Forks][forks-shield]][forks-url]\r [![Stargazers][stars-shield]][stars-url]\r [![Issues][issues-shield]][issues-url]",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicolasMB3/LPP_BAAR_Nicolas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NicolasMB3/LPP_BAAR_Nicolas/issues"
+  },
+  "homepage": "https://github.com/NicolasMB3/LPP_BAAR_Nicolas#readme",
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
