@@ -69,6 +69,7 @@ class RecipeList {
    // Display list
    displayAllLists() {
       this.boucleArray();
+      
       this.displayList(this.ingredients, 'ingredients');
       this.displayList(this.appliances, 'appliances');
       this.displayList(this.ustensils, 'ustensils');
