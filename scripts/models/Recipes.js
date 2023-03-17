@@ -66,6 +66,7 @@ class RecipeList {
       }
    }
 
+   // Display list
    displayAllLists() {
       this.boucleArray();
       this.displayList(this.ingredients, 'ingredients');
@@ -81,7 +82,6 @@ class RecipeList {
    searchRecipe() {
       let searchInput = document.querySelector('#floatingInput');
       searchInput.addEventListener('keyup', (event) => {
-         const startTimer = performance.now();
          if (event.target.value.length >= 3 || event.target.value.length === 0) {
             let searchValue = event.target.value.toLowerCase();
             let searchResults = [];
@@ -176,13 +176,11 @@ class RecipeList {
             this.filterRecipes();
             this.updateLists();
             this.checkIfNul();
-
-            const endTimer = performance.now();
-            console.log(`Temps d'exécution : ${endTimer - startTimer} millisecondes`);
          }
       });
    }
 
+   // Block user to create multiples badges if already exist
    badgeAlreadyExists(element, type) {
       let badgeContainer = document.querySelector('.container-badge');
       let badgeExists = Array.from(badgeContainer.children).some(badge => {
@@ -221,19 +219,19 @@ class RecipeList {
             }
          });
 
-         // add event listener to filter recipes on badge click
+         // Add event listener to filter recipes on badge click
          badge.addEventListener('click', () => {
-            // update selected elements with all currently selected badges of the same type
+            // Update selected elements with all currently selected badges of the same type
             let selectedBadges = document.querySelectorAll(`.container-badge .btn-${type}`);
             this.selectedElements[type] = Array.from(selectedBadges).map(badge => badge.textContent.trim().toLowerCase());
-            // filter recipes
+            // Filter recipes
             this.filterRecipes();
          });
 
-         // add class to badge to identify its type
+         // Add class to badge to identify type
          badge.classList.add(`btn-${type}`);
 
-         // update the list of ingredients, appliances, or utensils to include the new badge element
+         // Update the list of ingredients, appliances, utensils to include badge element
          switch (type) {
             case 'ingredients':
                this.selectedElements.ingredients.push(element.toLowerCase());
@@ -246,7 +244,7 @@ class RecipeList {
                break;
          }
 
-         // filter the recipes based on the new selection
+         // Filter the recipes based on the new selection
          this.filterRecipes();
       }
    }
@@ -258,6 +256,7 @@ class RecipeList {
       let selectedUstensils = this.selectedElements.ustensils;
       let searchValue = document.querySelector('#floatingInput').value.toLowerCase();
 
+      // New arrays for filtered Element (to display it after input search)
       let filteredIngredients = [];
       let filteredAppliances = [];
       let filteredUstensils = [];
@@ -324,6 +323,7 @@ class RecipeList {
       filteredAppliances = this.removeDuplicate(filteredAppliances);
       filteredUstensils = this.removeDuplicate(filteredUstensils);
 
+      // Display filtered list
       this.displayList(filteredIngredients, 'ingredients');
       this.displayList(filteredAppliances, 'appliances');
       this.displayList(filteredUstensils, 'ustensils');
@@ -358,13 +358,13 @@ class RecipeList {
    }
 
    updateLists() {
-      // get all currently displayed recipes
+      // Get all currently displayed recipes
       let recipeCards = document.querySelectorAll('.card-contenu');
       let displayedRecipes = Array.from(recipeCards).filter(card => {
          return card.style.display !== 'none';
       });
 
-      // get all ingredients, appliances, and ustensils from displayed recipes
+      // Get all ingredients, appliances, and ustensils from displayed recipes
       let filteredIngredients = [];
       let filteredAppliances = [];
       let filteredUstensils = [];
@@ -400,6 +400,8 @@ class RecipeList {
       this.displayList(filteredUstensils, 'ustensils');
    }
 
+   // If no result, display an error message in badge and body
+   // "Aucun résultat disponible avec les filtres sélectionnés"
    checkIfNul() {
       let recipeCards = document.querySelectorAll('.card-contenu');
       let numHiddenCards = 0;

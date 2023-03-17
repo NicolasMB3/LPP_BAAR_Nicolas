@@ -34,6 +34,7 @@ class Display {
       this.inputSearch = document.getElementById(id);
    }
 
+   // Toggle elements from recpies list (with search bar or tag)
    toggleResultMenu() {
       this.result.classList.toggle("d-none");
       this.container_gp.classList.toggle("col-md-6");

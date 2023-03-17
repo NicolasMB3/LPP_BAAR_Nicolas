@@ -9,6 +9,7 @@ class CreateCard {
       this.unit = unit;
    }
 
+   // Create cards content
    createCardItem() {
       // Build Container
       const divCol = document.createElement('div');
