@@ -12,6 +12,6 @@
     },
     "rules": {
         "semi": [2, "always"],
-        "no-unused-vars": [1, { "args": "none" }]
+        "no-unused-vars": "off" 
     }
 }
