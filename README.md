@@ -7,7 +7,7 @@
 
 <div align="center">
 
-### 🌶️ LPP_BAAR_Nicolas
+### 🍜 LPP_BAAR_Nicolas
 
 </div>
 
