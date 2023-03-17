@@ -333,17 +333,6 @@ class RecipeList {
       let searchInput = document.querySelector(`#input-${type}`);
       searchInput.addEventListener('keyup', (event) => {
          let searchValue = event.target.value.toLowerCase();
-         if (type === 'ingredients') {
-            let elements = this.ingredients.filter(element => element.includes(searchValue));
-         }
-         this.displayList(elements, type);
-      });
-   }
-
-   searchBadges(type) {
-      let searchInput = document.querySelector(`#input-${type}`);
-      searchInput.addEventListener('keyup', (event) => {
-         let searchValue = event.target.value.toLowerCase();
          let elements;
          if (type === 'ingredients') {
             elements = this.ingredients.filter(element => element.includes(searchValue));
