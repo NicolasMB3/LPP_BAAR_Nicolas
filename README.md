@@ -7,7 +7,7 @@
 
 <div align="center">
 
-### 🌶️ LPP_BAAR_Nicolas
+### 🍜 LPP_BAAR_Nicolas
 
 </div>
 
@@ -17,12 +17,12 @@ Hello World ! 👋 Les petits plats est un projet de développement Front-end de
 
 To-do liste du projet :
 
-- Écriture du code pour la recherche de recettes,
+- Écriture du code pour la fonctionnalité qui permet de rechercher des recettes avec un champ de recherche,
 - Implémentation des badges pour filtrer les recherches,
 - Ajout dynamique des recettes sur la page,
-- Optimisation du code avec "Native array",
-- Amélioration du code/structure HTML/CSS,
-- Utilisation de Bootstrap.
+- Optimisation du code avec les boucles natives,
+- Amélioration du code HTML/CSS et Javascript,
+- Utilisation de Bootstrap 5.3.
 
 ## Développé avec :
 
