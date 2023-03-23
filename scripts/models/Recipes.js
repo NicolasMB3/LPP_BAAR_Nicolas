@@ -81,7 +81,6 @@ class RecipeList {
   searchRecipe () {
     const searchInput = document.querySelector('#floatingInput');
     searchInput.addEventListener('keyup', (event) => {
-      const startTimer = performance.now();
       if (event.target.value.length >= 3 || event.target.value.length === 0) {
         const searchValue = event.target.value.toLowerCase();
         const searchResults = this.recipes.filter(recipe =>
@@ -145,8 +144,6 @@ class RecipeList {
         this.filterRecipes();
         this.updateLists();
         this.checkIfNul();
-        const endTimer = performance.now();
-        console.log(`Temps d'exécution : ${endTimer - startTimer} millisecondes`);
       }
     });
   }
