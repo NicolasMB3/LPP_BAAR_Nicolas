@@ -77,7 +77,7 @@ class RecipeList {
     this.searchBadges('ustensils');
   }
 
-  // Object Array methods
+  // Object Array method
   searchRecipe () {
     const searchInput = document.querySelector('#floatingInput');
     searchInput.addEventListener('keyup', (event) => {
@@ -85,61 +85,88 @@ class RecipeList {
         const searchValue = event.target.value.toLowerCase();
         const searchResults = this.recipes.filter(recipe =>
           recipe.name.toLowerCase().includes(searchValue) ||
-               recipe.description.toLowerCase().includes(searchValue) ||
-               recipe.appliance.toLowerCase().includes(searchValue) ||
-               recipe.ingredients.some(ingredient =>
-                 ingredient.ingredient.toLowerCase().includes(searchValue)
-               ) ||
-               recipe.ustensils.some(ustensil =>
-                 ustensil.toLowerCase().includes(searchValue)
-               )
+                recipe.description.toLowerCase().includes(searchValue) ||
+                recipe.appliance.toLowerCase().includes(searchValue) ||
+                recipe.ingredients.some(ingredient =>
+                  ingredient.ingredient.toLowerCase().includes(searchValue)
+                ) ||
+                recipe.ustensils.some(ustensil =>
+                  ustensil.toLowerCase().includes(searchValue)
+                )
         );
 
         // get all selected badges
-        const selectedBadges = Array.from(document.querySelectorAll('.container-badge button'));
+        const selectedBadges = document.querySelectorAll('.container-badge button');
 
         // filter recipes based on searchValue and selected badges
-        const filteredRecipes = searchResults.filter(recipe => {
+        const filteredRecipes = [];
+        for (let i = 0; i < searchResults.length; i++) {
+          const recipe = searchResults[i];
           const matchesSearchValue = true;
           let matchesSelectedBadges = true;
 
           if (selectedBadges.length > 0) {
-            const selectedIngredients = selectedBadges.filter(badge => badge.classList.contains('btn-primary'))
-              .map(badge => badge.textContent.trim().toLowerCase());
-            const selectedAppliances = selectedBadges.filter(badge => badge.classList.contains('btn-success'))
-              .map(badge => badge.textContent.trim().toLowerCase());
-            const selectedUstensils = selectedBadges.filter(badge => badge.classList.contains('btn-danger'))
-              .map(badge => badge.textContent.trim().toLowerCase());
+            const selectedIngredients = [];
+            const selectedAppliances = [];
+            const selectedUstensils = [];
+
+            for (const badge of Array.from(selectedBadges)) {
+              const badgeText = badge.textContent.trim().toLowerCase();
+
+              if (badge.classList.contains('btn-primary')) {
+                selectedIngredients.push(badgeText);
+              } else if (badge.classList.contains('btn-success')) {
+                selectedAppliances.push(badgeText);
+              } else if (badge.classList.contains('btn-danger')) {
+                selectedUstensils.push(badgeText);
+              }
+            }
 
             if (selectedIngredients.length > 0) {
-              matchesSelectedBadges = recipe.ingredients.some(ingredient =>
-                selectedIngredients.includes(ingredient.ingredient.toLowerCase())
-              );
+              matchesSelectedBadges = recipe.ingredients.some(ingredient => selectedIngredients.indexOf(ingredient.ingredient.toLowerCase()) !== -1);
             }
             if (selectedAppliances.length > 0) {
-              matchesSelectedBadges = recipe.appliance.toLowerCase().includes(selectedAppliances[0]);
+              matchesSelectedBadges = recipe.appliance.toLowerCase().indexOf(selectedAppliances[0]) !== -1;
             }
             if (selectedUstensils.length > 0) {
-              matchesSelectedBadges = recipe.ustensils.some(ustensil =>
-                selectedUstensils.includes(ustensil.toLowerCase())
-              );
+              matchesSelectedBadges = recipe.ustensils.some(ustensil => selectedUstensils.indexOf(ustensil.toLowerCase()) !== -1);
             }
           }
 
-          return matchesSearchValue && matchesSelectedBadges;
-        });
-
-        const recipeCards = Array.from(document.querySelectorAll('.card-contenu'));
-        const displayedRecipes = recipeCards.filter(card => card.style.display !== 'none');
-        displayedRecipes.forEach(card => {
-          const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
-          const recipe = this.recipes.find(recipe => recipe.name.toLowerCase() === cardTitle);
-          if (!recipe) {
-            return;
+          if (matchesSearchValue && matchesSelectedBadges) {
+            filteredRecipes.push(recipe);
           }
-          const hideCard = !filteredRecipes.includes(recipe);
-          card.style.display = hideCard ? 'none' : 'block';
-        });
+        }
+
+        const recipeCards = document.querySelectorAll('.card-contenu');
+        const displayedRecipes = [];
+        for (let i = 0; i < recipeCards.length; i++) {
+          const card = recipeCards[i];
+          if (card.style.display !== 'none') {
+            displayedRecipes.push(card);
+          }
+        }
+        for (let i = 0; i < displayedRecipes.length; i++) {
+          const cardTitle = displayedRecipes[i].querySelector('.card-title').textContent.toLowerCase();
+          let recipe = null;
+          for (let j = 0; j < this.recipes.length; j++) {
+            if (this.recipes[j].name.toLowerCase() === cardTitle) {
+              recipe = this.recipes[j];
+              break;
+            }
+          }
+          if (!recipe) {
+            continue;
+          }
+          let hideCard = true;
+          for (let j = 0; j < filteredRecipes.length; j++) {
+            if (filteredRecipes[j].id === recipe.id) {
+              hideCard = false;
+              break;
+            }
+          }
+          displayedRecipes[i].style.display = hideCard ? 'none' : 'block';
+        }
 
         this.filterRecipes();
         this.updateLists();
