@@ -2,8 +2,8 @@ class Display {
   static init () {
     const displayTypes = [
       { containerId: 'container-ingredients', inputId: 'input-ingredients', resultId: 'result-menu-ingredients', arrowId: '#container-ingredients img', placeholderText: 'Ingrédients' },
-      { containerId: 'container-appareils', inputId: 'input-appareils', resultId: 'result-menu-appliances', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
-      { containerId: 'container-ustensile', inputId: 'input-ustensile', resultId: 'result-menu-ustensils', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
+      { containerId: 'container-appareils', inputId: 'input-appliances', resultId: 'result-menu-appliances', arrowId: '#container-appareils img', placeholderText: 'Appareils' },
+      { containerId: 'container-ustensile', inputId: 'input-ustensils', resultId: 'result-menu-ustensils', arrowId: '#container-ustensile img', placeholderText: 'Ustensiles' }
     ];
 
     // Init Class Display
